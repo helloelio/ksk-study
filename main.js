@@ -7,6 +7,7 @@ let $count = document.getElementById('count');
 let $price = document.getElementById('price');
 let $date = document.getElementById('date');
 let $filterLength = document.querySelector('.length');
+
 document.getElementById('add').addEventListener('click', function () {
     if ($name.value !== '') {
         let goodsListItem = {
@@ -38,13 +39,6 @@ document.getElementById('add').addEventListener('click', function () {
     console.log(goodsList)
 });
 
-function clearList() {
-    if (goodsList.length > 0) {
-        $ol.innerHTML = '';
-        goodsList = [];
-    }
-}
-
 function paintNewItem(item) {
     let $ul = document.createElement('ul');
     let $li = document.createElement('li');
@@ -71,8 +65,9 @@ function paintNewList(list) {
     })
 }
 
+// filter
 $paramTitle.addEventListener('keyup', () => {
-    let filteredList = []
+    let filteredList = [];
     goodsList.forEach(item => {
         let value = item.name.toLowerCase();
         let filterInput = $paramTitle.value.toLowerCase();
@@ -81,9 +76,10 @@ $paramTitle.addEventListener('keyup', () => {
         }
     })
     $filterLength.innerText = `Найдено: ${filteredList.length}`
-    paintNewList(filteredList)
+    paintNewList(filteredList);
 })
 
+// sorting
 $sortingParam.addEventListener('change', () => {
     if ($sortingParam.value === 'Название') {
         goodsList = goodsList.sort((a, b) => {
@@ -118,5 +114,12 @@ $sortingParam.addEventListener('change', () => {
         })
         console.log(goodsList)
     }
-})
+});
+
+function clearList() {
+    if (goodsList.length > 0) {
+        $ol.innerHTML = '';
+        goodsList = [];
+    }
+}
 
