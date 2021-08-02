@@ -1,5 +1,5 @@
 let goodsList = [];
-
+let $paramTitle = document.querySelector('#filter-param');
 let $sortingParam = document.querySelector('#sorting-param');
 let $ol = document.querySelector('.goods-list');
 let $name = document.getElementById('name');
@@ -7,6 +7,7 @@ let $count = document.getElementById('count');
 let $price = document.getElementById('price');
 let $date = document.getElementById('date');
 
+let $filterLength = document.querySelector('.length');
 document.getElementById('add').addEventListener('click', function () {
     if ($name.value !== '') {
         let goodsListItem = {
@@ -71,16 +72,18 @@ function paintNewList(list) {
     })
 }
 
-function filter() {
-    let $paramTitle = document.querySelector('#filter-param');
+$paramTitle.addEventListener('keyup', () => {
     let filteredList = []
     goodsList.forEach(item => {
-        if (item.name === $paramTitle.value) {
+        let value = item.name.toLowerCase();
+        let filterInput = $paramTitle.value.toLowerCase();
+        if (value.includes(filterInput)) {
             filteredList.push(item)
         }
     })
+    $filterLength.innerText = `Найдено: ${filteredList.length}`
     paintNewList(filteredList)
-}
+})
 
 $sortingParam.addEventListener('change', () => {
     if ($sortingParam.value === 'Название') {
@@ -93,6 +96,22 @@ $sortingParam.addEventListener('change', () => {
     }
 
     if ($sortingParam.value === 'Цена') {
+        goodsList = goodsList.sort((a, b) => {
+            if (a.price > b.price) return 1;
+            if (a.price === b.price) return 0;
+            if (a.price < b.price) return -1
+        })
+        console.log(goodsList)
+    }
+    if ($sortingParam.value === 'Количество') {
+        goodsList = goodsList.sort((a, b) => {
+            if (a.price > b.price) return 1;
+            if (a.price === b.price) return 0;
+            if (a.price < b.price) return -1
+        })
+        console.log(goodsList)
+    }
+    if ($sortingParam.value === 'Дата') {
         goodsList = goodsList.sort((a, b) => {
             if (a.price > b.price) return 1;
             if (a.price === b.price) return 0;
