@@ -4,6 +4,19 @@
     <meta charset="UTF-8"/>
     <title>Список покупок</title>
 </head>
+<style>
+    form {
+        display: grid;
+        grid-template-columns: 30% 30%;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .block {
+        display: grid;
+        gap: 15px;
+    }
+</style>
 <body>
 <h1>Список покупок</h1>
 <form>
@@ -14,17 +27,24 @@
     <input type="button" id="add" value="Добавить"/>
     <input type="button" onclick="clearList()" value="Очистить список"/>
 </form>
-<div>
-    <label for="sorting-param">Сортировка</label>
-    <select type="text" id="sorting-param" placeholder="Наименование">
-        <option value="Название">Название</option>
-        <option value="Цена">Цена</option>
-    </select>
-</div>
-<div>
-    <label for="filter-param">Найти</label>
-    <input type="text" id="filter-param" placeholder="Поиск">
-    <input type="button" id="sorting" value="Фильтр" onclick="filter()">
+<div class="block">
+    <div class="sort">
+        <label for="sorting-param">Сортировка</label>
+        <select type="text" id="sorting-param" placeholder="Наименование">
+            <option value="Название">Название</option>
+            <option value="Цена">Цена</option>
+            <option value="Количество">Количество</option>
+            <option value="Дата">Дата</option>
+        </select>
+    </div>
+    <div class="filter">
+        <label for="filter-param">Найти</label>
+        <input type="text" id="filter-param" placeholder="Поиск">
+        <input type="button" id="sorting" value="Фильтр" onclick="filter()">
+    </div>
+    <div>
+        <span class="length"></span>
+    </div>
 </div>
 <h2>Мои покупки:</h2>
 <ol id="list" class="goods-list">
