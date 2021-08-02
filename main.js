@@ -6,7 +6,6 @@ let $name = document.getElementById('name');
 let $count = document.getElementById('count');
 let $price = document.getElementById('price');
 let $date = document.getElementById('date');
-
 let $filterLength = document.querySelector('.length');
 document.getElementById('add').addEventListener('click', function () {
     if ($name.value !== '') {
