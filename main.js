@@ -65,7 +65,7 @@ function paintNewList(list) {
     })
 }
 
-// filter
+// filter TODO: maybe some features
 $paramTitle.addEventListener('keyup', () => {
     let filteredList = [];
     goodsList.forEach(item => {
@@ -75,51 +75,57 @@ $paramTitle.addEventListener('keyup', () => {
             filteredList.push(item)
         }
     })
-    $filterLength.innerText = `Найдено: ${filteredList.length}`
+    $filterLength.innerText = `Найдено: ${filteredList.length} продуктов.`;
+    if ($paramTitle.value == '') {
+        $filterLength.innerText = ''
+    }
     paintNewList(filteredList);
 })
 
 // sorting
 $sortingParam.addEventListener('change', () => {
-    if ($sortingParam.value === 'Название') {
-        goodsList = goodsList.sort((a, b) => {
-            if (a.name > b.name) return 1;
-            if (a.name === b.name) return 0;
-            if (a.name < b.name) return -1;
-        })
-        console.log(goodsList)
-    }
+    switch ($sortingParam.value) {
+        case 'Название':
+            goodsList = goodsList.sort((a, b) => {
+                if (a.name > b.name) return 1;
+                if (a.name === b.name) return 0;
+                if (a.name < b.name) return -1;
+            })
+            paintNewList(goodsList);
+            break;
+        case 'Цена':
+            goodsList = goodsList.sort((a, b) => {
+                return a.price - b.price;
+            })
+            paintNewList(goodsList);
+            break;
 
-    if ($sortingParam.value === 'Цена') {
-        goodsList = goodsList.sort((a, b) => {
-            if (a.price > b.price) return 1;
-            if (a.price === b.price) return 0;
-            if (a.price < b.price) return -1
-        })
-        console.log(goodsList)
-    }
-    if ($sortingParam.value === 'Количество') {
-        goodsList = goodsList.sort((a, b) => {
-            if (a.price > b.price) return 1;
-            if (a.price === b.price) return 0;
-            if (a.price < b.price) return -1
-        })
-        console.log(goodsList)
-    }
-    if ($sortingParam.value === 'Дата') {
-        goodsList = goodsList.sort((a, b) => {
-            if (a.price > b.price) return 1;
-            if (a.price === b.price) return 0;
-            if (a.price < b.price) return -1
-        })
-        console.log(goodsList)
+        case 'Количество':
+            goodsList = goodsList.sort((a, b) => {
+                return a.count - b.count;
+            })
+            paintNewList(goodsList);
+            break;
+
+        case 'Дата':
+            goodsList = goodsList.sort((a, b) => {
+                if (a.date > b.date) return 1;
+                if (a.date === b.date) return 0;
+                if (a.date < b.date) return -1
+            })
+            paintNewList(goodsList);
+            break
     }
 });
 
+// clear
 function clearList() {
     if (goodsList.length > 0) {
         $ol.innerHTML = '';
         goodsList = [];
     }
 }
+
+
+
 
