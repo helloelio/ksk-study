@@ -8,7 +8,7 @@ let $price = document.getElementById('price');
 let $date = document.getElementById('date');
 let $filterLength = document.querySelector('.length');
 
-document.getElementById('add').addEventListener('click', function () {
+document.getElementById('add').addEventListener('click', function() {
     if ($name.value !== '') {
         let goodsListItem = {
             name: $name.value,
@@ -82,38 +82,27 @@ $paramTitle.addEventListener('keyup', () => {
     paintNewList(filteredList);
 })
 
-// sorting
 $sortingParam.addEventListener('change', () => {
+    const sortField = $sortingParam.value;
     switch ($sortingParam.value) {
-        case 'Название':
+        case 'name':
+        case 'date':
+            console.log(sortField)
             goodsList = goodsList.sort((a, b) => {
-                if (a.name > b.name) return 1;
-                if (a.name === b.name) return 0;
-                if (a.name < b.name) return -1;
+                if (a[sortField] > b[sortField]) return 1;
+                if (a[sortField] < b[sortField]) return -1;
+                if (a[sortField] === b[sortField]) return 0;
             })
             break;
-        case 'Цена':
+        case 'price':
+        case 'count':
             goodsList = goodsList.sort((a, b) => {
-                return a.price - b.price;
+                return a[sortField] - b[sortField]
             })
             break;
-
-        case 'Количество':
-            goodsList = goodsList.sort((a, b) => {
-                return a.count - b.count;
-            })
-            break;
-
-        case 'Дата':
-            goodsList = goodsList.sort((a, b) => {
-                if (a.date > b.date) return 1;
-                if (a.date === b.date) return 0;
-                if (a.date < b.date) return -1
-            })
-            break;
+            paintNewList(goodsList);
     }
-    paintNewList(goodsList);
-});
+})
 
 // clear
 function clearList() {
