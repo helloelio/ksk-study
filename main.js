@@ -82,7 +82,7 @@ $paramTitle.addEventListener('keyup', () => {
     paintNewList(filteredList);
 })
 
-sorting
+// sorting
 $sortingParam.addEventListener('change', () => {
     switch ($sortingParam.value) {
         case 'Название':
@@ -110,7 +110,7 @@ $sortingParam.addEventListener('change', () => {
                 if (a.date === b.date) return 0;
                 if (a.date < b.date) return -1
             })
-            break
+            break;
     }
     paintNewList(goodsList);
 });
