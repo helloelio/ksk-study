@@ -3,26 +3,14 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Список покупок</title>
+    <link rel="stylesheet" href="main.css">
 </head>
-<style>
-    form {
-        display: grid;
-        grid-template-columns: 30% 30%;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-
-    .block {
-        display: grid;
-        gap: 10px;
-    }
-</style>
 <body>
 <h1>Список покупок</h1>
 <form>
     <input type="text" id="name" placeholder="Наименование товара"/>
     <input type="number" id="count" placeholder="Количество товара"/>
-    <input type="number" id="price" placeholder="Цена товара"/>
+    <input type="number " id="price" placeholder="Цена товара"/>
     <input type="date" id="date" placeholder="Дата покупки товара"/>
     <input type="button" id="add" value="Добавить"/>
     <input type="button" onclick="clearList()" value="Очистить список"/>
