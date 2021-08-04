@@ -6,37 +6,41 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-<h1>Список покупок</h1>
-<form>
-    <input type="text" id="name" placeholder="Наименование товара"/>
-    <input type="number" id="count" placeholder="Количество товара"/>
-    <input type="number" id="price" placeholder="Цена товара"/>
-    <input type="date" id="date" placeholder="Дата покупки товара"/>
-    <input type="button" id="add" value="Добавить"/>
-    <input type="button" onclick="clearList()" value="Очистить список"/>
-</form>
-<div class="block">
-    <div class="sort">
-        <label for="sorting-param">Сортировка</label>
-        <select id="sorting-param">
-            <option value="name">Название</option>
-            <option value="price">Цена</option>
-            <option value="count">Количество</option>
-            <option value="date">Дата</option>
-        </select>
-    </div>
-    <div class="filter">
-        <label for="filter-param">Найти</label>
-        <input type="text" id="filter-param" placeholder="Поиск">
-        <!--        <input type="button" id="sorting" value="Фильтр">-->
-    </div>
-    <div>
-        <span class="length"></span>
-    </div>
+<div class="container add-form-container">
+    <h1>Список покупок</h1>
+    <form>
+        <input type="text" id="name" placeholder="Наименование товара"/>
+        <input type="number" id="count" placeholder="Количество товара"/>
+        <input type="number" id="price" placeholder="Цена товара"/>
+        <input type="date" id="date" placeholder="Дата покупки товара"/>
+        <input type="button" id="add" value="Добавить"/>
+        <input type="button" onclick="clearList()" value="Очистить список"/>
+    </form>
 </div>
-<h2>Мои покупки:</h2>
-<ol id="list" class="goods-list">
-</ol>
+
+<div class="container sort-container">
+    <label for="sorting-param">Сортировка</label>
+    <select id="sorting-param">
+        <option value="name">Название</option>
+        <option value="price">Цена</option>
+        <option value="count">Количество</option>
+        <option value="date">Дата</option>
+    </select>
+</div>
+<div class="container filter-container">
+    <label for="filter-param">Найти</label>
+    <input type="text" id="filter-param" placeholder="Поиск">
+    <!--        <input type="button" id="sorting" value="Фильтр">-->
+</div>
+<div>
+    <span class="length"></span>
+</div>
+
+<div class="container list-container">
+    <h2>Мои покупки:</h2>
+    <ol id="list" class="goods-list">
+    </ol>
+</div>
 </body>
 <script src="main.js"></script>
 </html>
