@@ -82,6 +82,7 @@ $paramTitle.addEventListener('keyup', () => {
     paintNewList(filteredList);
 })
 
+// sorting
 $sortingParam.addEventListener('change', () => {
     const sortField = $sortingParam.value;
     switch ($sortingParam.value) {
@@ -94,15 +95,17 @@ $sortingParam.addEventListener('change', () => {
                 if (a[sortField] === b[sortField]) return 0;
             })
             break;
+
         case 'price':
         case 'count':
             goodsList = goodsList.sort((a, b) => {
                 return a[sortField] - b[sortField]
             })
             break;
-            paintNewList(goodsList);
     }
+    paintNewList(goodsList);
 })
+
 
 // clear
 function clearList() {
