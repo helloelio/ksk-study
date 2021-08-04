@@ -14,7 +14,7 @@ document.getElementById('add').addEventListener('click', function() {
       name: $name.value,
       count: $count.value || 'Не задано',
       price: $price.value || 'Не задано',
-      date: $date.value || 'Не задано',
+      date: $date.value || 'Не задано'
     };
 
     function identityCheck() {
@@ -62,7 +62,7 @@ function paintNewList(list) {
   $ol.innerHTML = '';
   list.forEach(item => {
     paintNewItem(item)
-  })
+  });
 }
 
 // filter TODO: maybe some features
@@ -74,33 +74,27 @@ $paramTitle.addEventListener('keyup', () => {
     if (value.includes(filterInput)) {
       filteredList.push(item)
     }
-  })
+  });
   $filterLength.innerText = `Найдено: ${filteredList.length} продуктов.`;
   paintNewList(filteredList);
-})
+});
 
 // sorting
 $sortingParam.addEventListener('change', () => {
   const sortField = $sortingParam.value;
-  switch ($sortingParam.value) {
-    case 'name':
-    case 'date':
-      goodsList = goodsList.sort((a, b) => {
-        if (a[sortField] > b[sortField]) return 1;
-        if (a[sortField] < b[sortField]) return -1;
-        if (a[sortField] === b[sortField]) return 0;
-      })
-      break;
-
-    case 'price':
-    case 'count':
-      goodsList = goodsList.sort((a, b) => {
-        return a[sortField] - b[sortField]
-      })
-      break;
+  if ($sortingParam.value === 'name' || $sortingParam.value === 'date') {
+    goodsList = goodsList.sort((a, b) => {
+      if (a[sortField] > b[sortField]) return 1;
+      if (a[sortField] < b[sortField]) return -1;
+      if (a[sortField] === b[sortField]) return 0;
+    });
+  } else if ($sortingParam.value === 'price' || $sortingParam.value === 'count') {
+    goodsList = goodsList.sort((a, b) => {
+      return a[sortField] - b[sortField];
+    });
   }
   paintNewList(goodsList);
-})
+});
 
 // clear
 function clearList() {
