@@ -1,0 +1,11 @@
+form {
+    display: grid;
+    grid-template-columns: 30% 30%;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.block {
+    display: grid;
+    gap: 10px;
+}
