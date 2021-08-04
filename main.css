@@ -5,7 +5,15 @@ form {
     margin-bottom: 20px;
 }
 
-.block {
-    display: grid;
-    gap: 10px;
+li {
+    margin-bottom: 10px;
+}
+
+.container {
+    margin: 10px;
+}
+
+.checked-product {
+    background-color: rgba(255, 0, 0, 0.23);
+    text-decoration: line-through;
 }
