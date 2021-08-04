@@ -110,7 +110,3 @@ function clearList() {
     goodsList = [];
   }
 }
-
-
-
-
