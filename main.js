@@ -54,16 +54,17 @@ function paintNewItem(item) {
   $liCount.innerText = `Количество: ${item.count}`;
   $liPrice.innerText = `Цена: ${item.price}`;
   $liDate.innerText = `Дата покупки: ${item.date}`;
-  $ul.append($checkboxInput, $liName, $liCount, $liPrice, $liDate);
-  $li.append($ul);
+  $ul.append($liName, $liCount, $liPrice, $liDate);
+  $li.append($checkboxInput, $ul);
   $ol.append($li);
   $checkboxInput.addEventListener('click', () => {
     selectToDelete($checkboxInput)
   })
 }
 
+// TODO: fix
 function selectToDelete(checkboxValue) {
-  let $checkBoxParent = checkboxValue.parentNode.parentNode;
+  let $checkBoxParent = checkboxValue.parentNode;
   if (checkboxValue.checked) {
     $checkBoxParent.classList.add('checked-product')
   } else {
