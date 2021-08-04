@@ -76,13 +76,13 @@ $paramTitle.addEventListener('keyup', () => {
         }
     })
     $filterLength.innerText = `Найдено: ${filteredList.length} продуктов.`;
-    if ($paramTitle.value == '') {
+    if ($paramTitle.value === '') {
         $filterLength.innerText = ''
     }
     paintNewList(filteredList);
 })
 
-// sorting
+sorting
 $sortingParam.addEventListener('change', () => {
     switch ($sortingParam.value) {
         case 'Название':
@@ -91,20 +91,17 @@ $sortingParam.addEventListener('change', () => {
                 if (a.name === b.name) return 0;
                 if (a.name < b.name) return -1;
             })
-            paintNewList(goodsList);
             break;
         case 'Цена':
             goodsList = goodsList.sort((a, b) => {
                 return a.price - b.price;
             })
-            paintNewList(goodsList);
             break;
 
         case 'Количество':
             goodsList = goodsList.sort((a, b) => {
                 return a.count - b.count;
             })
-            paintNewList(goodsList);
             break;
 
         case 'Дата':
@@ -113,9 +110,9 @@ $sortingParam.addEventListener('change', () => {
                 if (a.date === b.date) return 0;
                 if (a.date < b.date) return -1
             })
-            paintNewList(goodsList);
             break
     }
+    paintNewList(goodsList);
 });
 
 // clear
