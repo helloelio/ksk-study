@@ -42,9 +42,10 @@ document.getElementById('add').addEventListener('click', function() {
 function paintNewItem(item) {
   let $ul = document.createElement('ul');
   let $li = document.createElement('li');
+  let $checkboxInput = document.createElement('input');
+  $checkboxInput.type = 'checkbox';
   // Не много стилей (чтобы глаз не резало)
   $li.innerText = 'Продукт.';
-  $li.style.marginBottom = '20px';
   let $liName = document.createElement('li');
   let $liCount = document.createElement('li');
   let $liPrice = document.createElement('li');
@@ -53,9 +54,21 @@ function paintNewItem(item) {
   $liCount.innerText = `Количество: ${item.count}`;
   $liPrice.innerText = `Цена: ${item.price}`;
   $liDate.innerText = `Дата покупки: ${item.date}`;
-  $ul.append($liName, $liCount, $liPrice, $liDate);
+  $ul.append($checkboxInput, $liName, $liCount, $liPrice, $liDate);
   $li.append($ul);
   $ol.append($li);
+  $checkboxInput.addEventListener('click', () => {
+    selectToDelete($checkboxInput)
+  })
+}
+
+function selectToDelete(checkboxValue) {
+  let $checkBoxParent = checkboxValue.parentNode.parentNode;
+  if (checkboxValue.checked) {
+    $checkBoxParent.classList.add('checked-product')
+  } else {
+    $checkBoxParent.classList.remove('checked-product')
+  }
 }
 
 function paintNewList(list) {
@@ -97,6 +110,7 @@ $sortingParam.addEventListener('change', () => {
 });
 
 // clear
+
 function clearList() {
   if (goodsList.length > 0) {
     $ol.innerHTML = '';
@@ -104,3 +118,4 @@ function clearList() {
     goodsList = [];
   }
 }
+
