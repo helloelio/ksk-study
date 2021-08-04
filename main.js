@@ -65,7 +65,6 @@ function paintNewList(list) {
   })
 }
 
-
 // filter TODO: maybe some features
 $paramTitle.addEventListener('keyup', () => {
   let filteredList = [];
