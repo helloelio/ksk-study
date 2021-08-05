@@ -18,9 +18,7 @@ document.getElementById('add').addEventListener('click', function() {
     };
 
     function identityCheck() {
-      return goodsList.every(
-          (item) => JSON.stringify(item) !== JSON.stringify(goodsListItem)
-      );
+      return goodsList.every((item) => JSON.stringify(item) !== JSON.stringify(goodsListItem));
     }
 
     if (identityCheck()) {
