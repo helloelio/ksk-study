@@ -15,5 +15,4 @@ li {
 
 .checked-product {
     background-color: rgba(255, 0, 0, 0.40);
-    text-decoration: line-through;
 }

@@ -17,7 +17,6 @@ document.getElementById('add').addEventListener('click', function() {
       date: $date.value || 'Не задано',
       purchaseType: false
     };
-    console.log(goodsListItem);
 
     function identityCheck() {
       return goodsList.every((item) => JSON.stringify(item) !== JSON.stringify(goodsListItem));
@@ -33,6 +32,7 @@ document.getElementById('add').addEventListener('click', function() {
     } else {
       alert('Нельзя добавить уже существующий товар');
     }
+
   } else {
     alert('Нельзя добавить товар без наименования');
   }
@@ -103,7 +103,6 @@ $sortingParam.addEventListener('change', () => {
 });
 
 // clear
-
 function clearList() {
   if (goodsList.length > 0) {
     $ol.innerHTML = '';
