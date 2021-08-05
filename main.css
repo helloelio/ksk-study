@@ -1,26 +1,8 @@
-body {
-    background-color: #232323;
-    color: white;
-}
-
 form {
     display: grid;
     grid-template-columns: 30%;
     gap: 10px;
     margin-bottom: 20px;
-}
-
-input {
-    border-radius: 4px;
-    box-shadow: 1px 1px 5px black;
-}
-
-.btn {
-    border-radius: 4px;
-}
-
-.btn:not(:first-child) {
-    margin-left: 20px;
 }
 
 li {
@@ -32,6 +14,6 @@ li {
 }
 
 .checked-product {
-    background-color: rgba(255, 0, 0, 0.23);
+    background-color: rgba(255, 0, 0, 0.40);
     text-decoration: line-through;
 }

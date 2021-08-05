@@ -56,12 +56,12 @@ function paintNewItem(item) {
   $li.append($checkboxInput, $ul);
   $ol.append($li);
   $checkboxInput.addEventListener('click', () => {
-    selectToDelete($checkboxInput)
+    selectTo($checkboxInput)
   })
 }
 
 // TODO: fix
-function selectToDelete(checkboxValue) {
+function selectTo(checkboxValue) {
   let $checkBoxParent = checkboxValue.parentNode;
   if (checkboxValue.checked) {
     $checkBoxParent.classList.add('checked-product')
