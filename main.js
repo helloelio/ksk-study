@@ -14,8 +14,10 @@ document.getElementById('add').addEventListener('click', function() {
       name: $name.value,
       count: $count.value || 'Не задано',
       price: $price.value || 'Не задано',
-      date: $date.value || 'Не задано'
+      date: $date.value || 'Не задано',
+      purchaseType: false
     };
+    console.log(goodsListItem);
 
     function identityCheck() {
       return goodsList.every((item) => JSON.stringify(item) !== JSON.stringify(goodsListItem));
@@ -38,35 +40,27 @@ document.getElementById('add').addEventListener('click', function() {
 });
 
 function paintNewItem(item) {
-  let $ul = document.createElement('ul');
-  let $li = document.createElement('li');
-  let $checkboxInput = document.createElement('input');
-  $checkboxInput.type = 'checkbox';
-  // Не много стилей (чтобы глаз не резало)
-  $li.innerText = 'Продукт.';
-  let $liName = document.createElement('li');
-  let $liCount = document.createElement('li');
-  let $liPrice = document.createElement('li');
-  let $liDate = document.createElement('li');
-  $liName.innerText = `Название: ${item.name}`;
-  $liCount.innerText = `Количество: ${item.count}`;
-  $liPrice.innerText = `Цена: ${item.price}`;
-  $liDate.innerText = `Дата покупки: ${item.date}`;
-  $ul.append($liName, $liCount, $liPrice, $liDate);
-  $li.append($checkboxInput, $ul);
-  $ol.append($li);
-  $checkboxInput.addEventListener('click', () => {
-    selectTo($checkboxInput)
-  })
+  const itemData = `
+    <li>Продукт.
+      <input class="checkbox-input" type="checkbox" onclick="selectTo(this)">
+      <ul>
+        <li>Название: ${item.name}</li>
+        <li>Количество: ${item.count}</li>
+        <li>Цена: ${item.price}</li>
+        <li>Дата покупки: ${item.date}</li>
+      </ul>
+    </li>
+`;
+  $ol.insertAdjacentHTML('beforeend', itemData);
 }
 
-// TODO: fix
+// TODO:
 function selectTo(checkboxValue) {
   let $checkBoxParent = checkboxValue.parentNode;
   if (checkboxValue.checked) {
-    $checkBoxParent.classList.add('checked-product')
+    $checkBoxParent.classList.add('checked-product');
   } else {
-    $checkBoxParent.classList.remove('checked-product')
+    $checkBoxParent.classList.remove('checked-product');
   }
 }
 
@@ -77,7 +71,7 @@ function paintNewList(list) {
   });
 }
 
-// filter TODO: maybe some features
+// filter TODO:
 $paramTitle.addEventListener('keyup', () => {
   let filteredList = [];
   goodsList.forEach(item => {
