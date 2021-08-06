@@ -16,3 +16,7 @@ li {
 .checked-product {
     background-color: rgba(255, 0, 0, 0.40);
 }
+
+.bought-items {
+    background-color: rgba(149, 236, 149, 0.40);
+}

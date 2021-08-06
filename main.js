@@ -1,4 +1,8 @@
 let goodsList = [];
+
+let $allBoughtButton = document.querySelector('.btn-allBought');
+let $boughtButton = document.querySelector('.btn-bought');
+let $plannedButton = document.querySelector('.btn-plannedBought')
 let $paramTitle = document.querySelector('#filter-param');
 let $sortingParam = document.querySelector('#sorting-param');
 let $ol = document.querySelector('.goods-list');
@@ -15,11 +19,13 @@ document.getElementById('add').addEventListener('click', function() {
       count: $count.value || 'Не задано',
       price: $price.value || 'Не задано',
       date: $date.value || 'Не задано',
-      purchaseType: false
+      bought: false
     };
 
     function identityCheck() {
-      return goodsList.every((item) => JSON.stringify(item) !== JSON.stringify(goodsListItem));
+      return goodsList.every(
+          (item) => JSON.stringify(item.name) !== JSON.stringify(goodsListItem.name)
+      );
     }
 
     if (identityCheck()) {
@@ -32,58 +38,112 @@ document.getElementById('add').addEventListener('click', function() {
     } else {
       alert('Нельзя добавить уже существующий товар');
     }
-
   } else {
     alert('Нельзя добавить товар без наименования');
   }
   $filterLength.innerText = `Найдено: ${goodsList.length} продуктов.`;
 });
 
+
 function paintNewItem(item) {
   const itemData = `
     <li>Продукт.
-      <input class="checkbox-input" type="checkbox" onclick="selectTo(this)">
+      <input class="checkbox-input" type="checkbox">
       <ul>
         <li>Название: ${item.name}</li>
         <li>Количество: ${item.count}</li>
         <li>Цена: ${item.price}</li>
         <li>Дата покупки: ${item.date}</li>
+        <li>${item.bought ? "Куплено" : 'Покупка планируется'}</li>
       </ul>
     </li>
 `;
+
+  let $checkbox = document.createElement('input');
+  $checkbox.addEventListener('click', () => {
+    if ($checkbox.checked) {
+      $checkbox.previousElementSibling.classList.add('checked-product')
+      item.bought = true;
+      console.log(item)
+    } else {
+      $checkbox.previousElementSibling.classList.remove('checked-product')
+      item.bought = false;
+      console.log(item)
+    }
+  })
+  $checkbox.type = 'checkbox';
   $ol.insertAdjacentHTML('beforeend', itemData);
+  $ol.append($checkbox)
 }
 
-// TODO:
-function selectTo(checkboxValue) {
-  let $checkBoxParent = checkboxValue.parentNode;
-  if (checkboxValue.checked) {
-    $checkBoxParent.classList.add('checked-product');
-  } else {
-    $checkBoxParent.classList.remove('checked-product');
-  }
-}
-
-function paintNewList(list) {
+//  paint bought item
+const paintBoughtItems = list => {
   $ol.innerHTML = '';
-  list.forEach(item => {
-    paintNewItem(item)
-  });
-}
+  list.forEach(item => paintNewItem(item))
+};
+
+$boughtButton.addEventListener('click', () => {
+  let boughtItems = [];
+  goodsList.forEach((item) => {
+    if (item.bought) {
+      boughtItems.push(item);
+    }
+  })
+  paintBoughtItems(boughtItems)
+})
+
+//  paint bought item
+
+//  paint planned bought
+const paintPlannedItems = list => {
+  $ol.innerHTML = '';
+  list.forEach(item => paintNewItem(item));
+};
+
+$plannedButton.addEventListener('click', () => {
+  let plannedItems = [];
+  goodsList.forEach((item) => {
+    if (item.bought === false) {
+      plannedItems.push(item);
+    }
+  })
+  paintPlannedItems(plannedItems);
+})
+
+//  paint planned bought
+
+//  paint all items
+const paintAllItems = list => {
+  $ol.innerHTML = '';
+  list.forEach(item => paintNewItem(item));
+};
+
+$allBoughtButton.addEventListener('click', () => {
+  paintAllItems(goodsList);
+})
+//  paint all items
+
 
 // filter TODO:
 $paramTitle.addEventListener('keyup', () => {
   let filteredList = [];
-  goodsList.forEach(item => {
+  goodsList.forEach((item) => {
     let value = item.name.toLowerCase();
     let filterInput = $paramTitle.value.toLowerCase();
     if (value.includes(filterInput)) {
-      filteredList.push(item)
+      filteredList.push(item);
     }
   });
   $filterLength.innerText = `Найдено: ${filteredList.length} продуктов.`;
   paintNewList(filteredList);
 });
+
+function paintNewList(list) {
+  $ol.innerHTML = '';
+  list.forEach((item) => {
+    paintNewItem(item);
+  });
+}
 
 // sorting
 $sortingParam.addEventListener('change', () => {
@@ -94,7 +154,10 @@ $sortingParam.addEventListener('change', () => {
       if (a[sortField] < b[sortField]) return -1;
       if (a[sortField] === b[sortField]) return 0;
     });
-  } else if ($sortingParam.value === 'price' || $sortingParam.value === 'count') {
+  } else if (
+      $sortingParam.value === 'price' ||
+      $sortingParam.value === 'count'
+  ) {
     goodsList = goodsList.sort((a, b) => {
       return a[sortField] - b[sortField];
     });
@@ -110,4 +173,3 @@ function clearList() {
     goodsList = [];
   }
 }
-
