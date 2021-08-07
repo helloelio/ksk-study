@@ -1,5 +1,8 @@
 let goodsList = [];
 
+let counter = 1;
+
+let $subtitle = document.querySelector('.subtitle');
 let $allBoughtButton = document.querySelector('.btn-allBought');
 let $boughtButton = document.querySelector('.btn-bought');
 let $plannedButton = document.querySelector('.btn-plannedBought')
@@ -35,6 +38,7 @@ document.getElementById('add').addEventListener('click', function() {
       $count.value = '';
       $price.value = '';
       $date.value = '';
+
     } else {
       alert('Нельзя добавить уже существующий товар');
     }
@@ -44,11 +48,11 @@ document.getElementById('add').addEventListener('click', function() {
   $filterLength.innerText = `Найдено: ${goodsList.length} продуктов.`;
 });
 
-
+// TODO: fix
 function paintNewItem(item) {
-  const itemData = `
+  let itemData = `
     <li>Продукт.
-      <input class="checkbox-input" type="checkbox">
+      <input class="checkbox-input" type="checkbox" id="checkbox-${counter}">
       <ul>
         <li>Название: ${item.name}</li>
         <li>Количество: ${item.count}</li>
@@ -58,28 +62,32 @@ function paintNewItem(item) {
       </ul>
     </li>
 `;
-
-  let $checkbox = document.createElement('input');
-  $checkbox.addEventListener('click', () => {
-    if ($checkbox.checked) {
-      $checkbox.previousElementSibling.classList.add('checked-product')
-      item.bought = true;
-      console.log(item)
-    } else {
-      $checkbox.previousElementSibling.classList.remove('checked-product')
-      item.bought = false;
-      console.log(item)
-    }
-  })
-  $checkbox.type = 'checkbox';
   $ol.insertAdjacentHTML('beforeend', itemData);
-  $ol.append($checkbox)
+
+  function changeCheck() {
+    let $checkbox = document.getElementById(`checkbox-${counter}`);
+    $checkbox.addEventListener('click', () => {
+      if ($checkbox.checked) {
+        $checkbox.parentNode.classList.add('checked-product')
+        item.bought = true;
+        console.log(item)
+      } else {
+        $checkbox.parentNode.classList.remove('checked-product')
+        item.bought = false;
+        console.log(item)
+      }
+    })
+  }
+
+  changeCheck()
+  counter++;
 }
 
 //  paint bought item
 const paintBoughtItems = list => {
   $ol.innerHTML = '';
   list.forEach(item => paintNewItem(item))
+
 };
 
 $boughtButton.addEventListener('click', () => {
@@ -89,7 +97,9 @@ $boughtButton.addEventListener('click', () => {
       boughtItems.push(item);
     }
   })
-  paintBoughtItems(boughtItems)
+  paintBoughtItems(boughtItems);
+  $subtitle.innerText = 'Купленные.';
+  $filterLength.innerText = `Найдено: ${boughtItems.length} продуктов.`;
 })
 
 //  paint bought item
@@ -108,6 +118,8 @@ $plannedButton.addEventListener('click', () => {
     }
   })
   paintPlannedItems(plannedItems);
+  $subtitle.innerText = 'Планируемые покупки.';
+  $filterLength.innerText = `Найдено: ${plannedItems.length} продуктов.`;
 })
 
 //  paint planned bought
@@ -120,6 +132,8 @@ const paintAllItems = list => {
 
 $allBoughtButton.addEventListener('click', () => {
   paintAllItems(goodsList);
+  $subtitle.innerText = 'Все покупки.';
+  $filterLength.innerText = `Найдено: ${goodsList.length} продуктов.`;
 })
 //  paint all items
 
@@ -134,6 +148,7 @@ $paramTitle.addEventListener('keyup', () => {
       filteredList.push(item);
     }
   });
+  $subtitle.innerText = 'Все покупки.';
   $filterLength.innerText = `Найдено: ${filteredList.length} продуктов.`;
   paintNewList(filteredList);
 });
