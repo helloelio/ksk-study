@@ -1,33 +1,58 @@
-form {
-  display: grid;
-  grid-template-columns: 30%;
-  gap: 10px;
-  margin-bottom: 20px;
+body {
+    background-color: #e0e0e0;
 }
 
-a:not(:first-child) {
-  margin-left: 10px;
+form {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 20px;
+    max-width: 35%;
+}
+
+input {
+    padding: 2px;
+}
+
+select {
+    padding: 2px
 }
 
 li {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .container {
-  margin: 10px;
+    margin: 10px;
 }
 
 .checked-product {
-  background-color: rgba(255, 0, 0, 0.4);
+    background-color: rgba(255, 0, 0, 0.4);
 }
 
 .buttons-container {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 0;
+    border-radius: 8px;
+    background-color: #292929;
+    padding: 5px;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+}
+
+button {
+    border-radius: 4px;
+    background-color: #292929;
+    color: white;
+    border: 0;
+    transition: .2s ease;
+}
+
+button:hover {
+    background-color: #e0e0e0;
+    color: #292929;
+    cursor: pointer;
 }
 
 .bought-items {
-  background-color: rgba(149, 236, 149, 0.4);
+    background-color: rgba(149, 236, 149, 0.4);
 }
