@@ -1,32 +1,33 @@
 form {
-    display: grid;
-    grid-template-columns: 30%;
-    gap: 10px;
-    margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: 30%;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 a:not(:first-child) {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 li {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .container {
-    margin: 10px;
+  margin: 10px;
 }
 
 .checked-product {
-    background-color: rgba(255, 0, 0, 0.40);
+  background-color: rgba(255, 0, 0, 0.4);
 }
 
 .buttons-container {
-    position: fixed;
-    right: 0;
-    bottom: 0;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
 }
 
 .bought-items {
-    background-color: rgba(149, 236, 149, 0.40);
+  background-color: rgba(149, 236, 149, 0.4);
 }
