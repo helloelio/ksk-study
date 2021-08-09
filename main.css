@@ -25,6 +25,16 @@ li {
     margin: 10px;
 }
 
+#list {
+    margin-bottom: 50px;
+}
+
+.product {
+    padding: 10px;
+    box-shadow: 1px 1px 5px black;
+    max-width: 30%;
+}
+
 .checked-product {
     background-color: rgba(255, 0, 0, 0.4);
 }

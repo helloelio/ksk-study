@@ -51,7 +51,7 @@ document.getElementById('add').addEventListener('click', function() {
 // TODO: fix
 function paintNewItem(item) {
   let itemData = `
-    <li>Продукт.
+    <li class="product">Продукт.
       <input class="checkbox-input" type="checkbox" id="checkbox-${counter}">
       <ul>
         <li>Название: ${item.name}</li>
