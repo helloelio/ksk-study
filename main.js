@@ -1,10 +1,5 @@
 let goodsList = [];
-let counter = 1;
-let toggleStatus;
 let $ol = document.querySelector('.goods-list');
-let $allBoughtButton = document.querySelector('.btn-allBought');
-let $boughtButton = document.querySelector('.btn-bought');
-let $plannedButton = document.querySelector('.btn-plannedBought');
 let $paramTitle = document.querySelector('#filter-param');
 let $sortingParam = document.querySelector('#sorting-param');
 let $name = document.getElementById('name');
@@ -14,7 +9,7 @@ let $date = document.getElementById('date');
 let $subtitle = document.querySelector('.subtitle');
 let $filterLength = document.querySelector('.length');
 
-document.getElementById('add').addEventListener('click', function() {
+function addItem() {
   if ($name.value !== '') {
     let goodsListItem = {
       name: $name.value,
@@ -22,6 +17,7 @@ document.getElementById('add').addEventListener('click', function() {
       price: $price.value || 'Не задано',
       date: $date.value || 'Не задано',
       bought: false,
+      display: true
     };
 
     function identityCheck() {
@@ -33,11 +29,9 @@ document.getElementById('add').addEventListener('click', function() {
 
     if (identityCheck()) {
       goodsList.push(goodsListItem);
+      setItemsToLocalStorage(goodsList);
       paintNewItem(goodsListItem);
-      $name.value = '';
-      $count.value = '';
-      $price.value = '';
-      $date.value = '';
+      clearFields();
     } else {
       alert('Нельзя добавить уже существующий товар');
     }
@@ -46,13 +40,13 @@ document.getElementById('add').addEventListener('click', function() {
   }
   $subtitle.innerText = 'Все покупки.';
   $filterLength.innerText = `Найдено: ${goodsList.length} продуктов.`;
-});
+};
 
 // TODO: fix
 function paintNewItem(item) {
   let itemData = `
-    <li class="product">Продукт.
-      <input class="checkbox-input" type="checkbox" id="checkbox-${counter}">
+    <li class="product" id="product-${item.name}">Продукт.
+      <input class="checkbox-input" type="checkbox" id="${item.name}">
       <ul>
         <li>Название: ${item.name}</li>
         <li>Количество: ${item.count}</li>
@@ -60,144 +54,103 @@ function paintNewItem(item) {
         <li>Дата покупки: ${item.date}</li>
         <li>${item.bought ? 'Куплено' : 'Покупка планируется'}</li>
       </ul>
+      <button id="button-${item.name}">Удалить</button>
     </li>
 `;
   $ol.insertAdjacentHTML('beforeend', itemData);
 
-  let $checkbox = document.getElementById(`checkbox-${counter}`);
+  item.display ? document.getElementById(`product-${item.name}`).style.display = 'block' :
+      document.getElementById('product').style.display = 'none';
+
+  let $checkbox = document.getElementById(`${item.name}`);
   let $checkboxParent = $checkbox.parentNode;
-
-  function changeCheck() {
-    $checkbox.addEventListener('click', () => {
-      if ($checkbox.checked) {
-        $checkboxParent.classList.add('checked-product');
-        item.bought = true;
-      } else {
-        $checkboxParent.classList.remove('checked-product');
-        item.bought = false;
+  $checkbox.checked = item.bought;
+  item.bought ? $checkboxParent.classList.add('checked-product') : $checkboxParent.classList.remove('checked-product');
+  $checkbox.addEventListener('change', (e) => {
+    goodsList.forEach(t => {
+      if (t.name === e.target.id) {
+        t.bought = !t.bought;
+        item.bought ? $checkboxParent.classList.add('checked-product') : $checkboxParent.classList.remove('checked-product');
       }
-    });
-  }
+    })
+  });
 
-  counter++;
-  changeCheck();
+  let $buttonToDelete = document.getElementById(`button-${item.name}`);
+  let $buttonToDeleteParent = $buttonToDelete.parentNode
+  $buttonToDelete.addEventListener('click', (e) => {
+
+
+    let accept = confirm('Вы точно хотите удалить этот продукт?');
+    if (accept) {
+      $buttonToDeleteParent.remove();
+      clearStorage();
+    } else {
+      return null;
+    }
+    let toStorageList = goodsList.filter(el => {
+      return `button-${el.name}` !== e.target.id
+    });
+    setItemsToLocalStorage(toStorageList);
+  })
+  setItemsToLocalStorage(goodsList);
 }
 
-if (toggleStatus == 0) {
-  $paramTitle.addEventListener('keyup', () => {
-    let filteredList = [];
-    goodsList.forEach((item) => {
-      let value = item.name.toLowerCase();
-      let filterInput = $paramTitle.value.toLowerCase();
-      if (value.includes(filterInput)) {
-        filteredList.push(item);
-      }
-    });
-    $filterLength.innerText = `Найдено: ${filteredList.length} продуктов.`;
-    paintNewList(filteredList);
+$paramTitle.addEventListener('keyup', () => {
+  let filteredList = [];
+  goodsList.forEach((item) => {
+    let value = item.name.toLowerCase();
+    let filterInput = $paramTitle.value.toLowerCase();
+    if (value.includes(filterInput)) {
+      filteredList.push(item);
+    }
   });
+  $filterLength.innerText = `Найдено: ${filteredList.length} продуктов.`;
+  paintNewList(filteredList);
+});
+
+function getGoods(type) {
+  switch (type) {
+    case 'all': {
+      let storageList = localStorage.getItem('goodsList');
+      $subtitle.innerText = 'Все покупки';
+      paintNewList(goodsList.filter(item => {
+        if (storageList) {
+          item.display = true;
+        }
+      }))
+      paintNewList(goodsList)
+      break;
+    }
+    case 'bought': {
+      $subtitle.innerText = 'Уже куплено';
+      localStorage.removeItem('goodsList');
+      paintNewList(goodsList.filter(item => {
+        if (item.bought) {
+          item.display = true;
+        } else {
+          item.display = false;
+        }
+        setItemsToLocalStorage(goodsList);
+        return item.bought === true
+      }))
+      break;
+    }
+    case 'planned': {
+      $subtitle.innerText = 'Планируемые покупки';
+      localStorage.removeItem('goodsList');
+      paintNewList(goodsList.filter(item => {
+        if (!item.bought) {
+          item.display = true;
+        } else {
+          item.display = false;
+        }
+        setItemsToLocalStorage(goodsList);
+        return item.bought === false;
+      }))
+      break;
+    }
+  }
 }
-
-//  paint all items
-const paintAllItems = (list) => {
-  $ol.innerHTML = '';
-  list.forEach((item) => {
-    paintNewItem(item);
-  });
-};
-
-$allBoughtButton.addEventListener('click', () => {
-  toggleStatus = 'Все покупки';
-  paintAllItems(goodsList);
-  $subtitle.innerText = 'Все покупки.';
-  $filterLength.innerText = `Найдено: ${goodsList.length} продуктов.`;
-  if (toggleStatus === 'Все покупки') {
-    $paramTitle.addEventListener('keyup', () => {
-      let filteredList = [];
-      goodsList.forEach((item) => {
-        let value = item.name.toLowerCase();
-        let filterInput = $paramTitle.value.toLowerCase();
-        if (value.includes(filterInput)) {
-          filteredList.push(item);
-        }
-      });
-      $filterLength.innerText = `Найдено: ${filteredList.length} продуктов.`;
-      paintNewList(filteredList);
-    });
-  }
-  console.log(goodsList)
-});
-//  paint all items
-
-//  paint bought item
-const paintBoughtItems = (list) => {
-  $ol.innerHTML = '';
-  list.forEach((item) => paintNewItem(item));
-};
-
-let boughtItems;
-$boughtButton.addEventListener('click', () => {
-  toggleStatus = 'Уже куплено';
-  boughtItems = [];
-  goodsList.forEach((item) => {
-    if (item.bought) {
-      boughtItems.push(item);
-    }
-  });
-  paintBoughtItems(boughtItems);
-  $subtitle.innerText = 'Купленные.';
-  $filterLength.innerText = `Найдено: ${boughtItems.length} продуктов.`;
-  if (toggleStatus === 'Уже куплено') {
-    $paramTitle.addEventListener('keyup', () => {
-      let filteredList = [];
-      boughtItems.forEach((item) => {
-        let value = item.name.toLowerCase();
-        let filterInput = $paramTitle.value.toLowerCase();
-        if (value.includes(filterInput)) {
-          filteredList.push(item);
-        }
-      });
-      $filterLength.innerText = `Найдено: ${filteredList.length} продуктов.`;
-      paintNewList(filteredList);
-    });
-  }
-  console.log(boughtItems)
-});
-//  paint bought item
-
-//  paint planned bought
-const paintPlannedItems = (list) => {
-  $ol.innerHTML = '';
-  list.forEach((item) => paintNewItem(item));
-};
-
-let plannedItems;
-$plannedButton.addEventListener('click', () => {
-  toggleStatus = 'Планируемые покупки';
-  plannedItems = [];
-  goodsList.forEach((item) => {
-    if (!item.bought) {
-      plannedItems.push(item);
-    }
-  });
-  paintPlannedItems(plannedItems);
-  $subtitle.innerText = 'Планируемые покупки.';
-  $filterLength.innerText = `Найдено: ${plannedItems.length} продуктов.`;
-  if (toggleStatus === 'Планируемые покупки') {
-    $paramTitle.addEventListener('keyup', () => {
-      let filteredList = [];
-      plannedItems.forEach((item) => {
-        let value = item.name.toLowerCase();
-        let filterInput = $paramTitle.value.toLowerCase();
-        if (value.includes(filterInput)) {
-          filteredList.push(item);
-        }
-      });
-      $filterLength.innerText = `Найдено: ${filteredList.length} продуктов.`;
-      paintNewList(filteredList);
-    });
-  }
-});
 
 //  paint planned bought
 function paintNewList(list) {
@@ -205,10 +158,11 @@ function paintNewList(list) {
   list.forEach((item) => {
     paintNewItem(item);
   });
+  setItemsToLocalStorage(goodsList)
 }
 
 // sorting
-$sortingParam.addEventListener('change', () => {
+function sortByParam() {
   const sortField = $sortingParam.value;
   if ($sortingParam.value === 'name' || $sortingParam.value === 'date') {
     goodsList = goodsList.sort((a, b) => {
@@ -225,7 +179,7 @@ $sortingParam.addEventListener('change', () => {
     });
   }
   paintNewList(goodsList);
-});
+}
 
 // clear
 function clearList() {
@@ -233,8 +187,38 @@ function clearList() {
     $ol.innerHTML = '';
     $filterLength.innerText = '';
     goodsList = [];
+    clearStorage();
   }
 }
 
+//  setStorage
+function setItemsToLocalStorage(list = []) {
+  localStorage.setItem('goodsList', JSON.stringify({items: list}));
+}
 
+//  clearStorage
+function clearStorage() {
+  localStorage.removeItem('goodsList');
+}
 
+function clearFields() {
+  $name.value = '';
+  $count.value = '';
+  $price.value = '';
+  $date.value = '';
+}
+
+function onPageLoaded() {
+  let storageList = localStorage.getItem('goodsList');
+  if (storageList) {
+    goodsList = JSON.parse(localStorage.getItem('goodsList')).items;
+    paintNewList(goodsList);
+    $filterLength.innerText = `Найдено: ${goodsList.length} продуктов.`;
+  } else {
+    goodsList = []
+  }
+}
+
+document.addEventListener('DOMContentLoaded', onPageLoaded)
+
+//TODO: fix filter, fix display value, fix delete

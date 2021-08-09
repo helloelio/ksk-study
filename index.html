@@ -13,14 +13,14 @@
         <input type="number" id="count" placeholder="Количество товара"/>
         <input type="number" id="price" placeholder="Цена товара"/>
         <input type="date" id="date" placeholder="Дата покупки товара"/>
-        <input type="button" id="add" value="Добавить"/>
+        <input type="button" id="add" value="Добавить" onclick="addItem()"/>
         <input type="button" onclick="clearList()" value="Очистить список"/>
     </form>
 </div>
 
 <div class="container sort-container">
     <label for="sorting-param">Сортировка</label>
-    <select id="sorting-param">
+    <select id="sorting-param" onchange="sortByParam()">
         <option value="name">Название</option>
         <option value="price">Цена</option>
         <option value="count">Количество</option>
@@ -33,9 +33,9 @@
     <!--        <input type="button" id="sorting" value="Фильтр">-->
 </div>
 <div class="container buttons-container">
-    <button class="btn-allBought">Все покупки</button>
-    <button class="btn-bought">Уже куплено</button>
-    <button class="btn-plannedBought">Планируемые покупки</button>
+    <button class="btn-allBought" onclick="getGoods('all')">Все покупки</button>
+    <button class="btn-bought" onclick="getGoods('bought')">Уже куплено</button>
+    <button class="btn-plannedBought" onclick="getGoods('planned')">Планируемые покупки</button>
 </div>
 <div>
     <span class="length"></span>
