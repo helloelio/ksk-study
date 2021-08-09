@@ -42,6 +42,11 @@ function addItem() {
   $filterLength.innerText = `Найдено: ${goodsList.length} продуктов.`;
 };
 
+//  addItem from key (Enter)
+$name.addEventListener('keydown', (e) => {
+  e.key === 'Enter' ? addItem() : null
+})
+
 // TODO: fix
 function paintNewItem(item) {
   let itemData = `
@@ -76,24 +81,20 @@ function paintNewItem(item) {
   });
 
   let $buttonToDelete = document.getElementById(`button-${item.name}`);
-  let $buttonToDeleteParent = $buttonToDelete.parentNode
+  let $buttonToDeleteParent = $buttonToDelete.parentNode;
   $buttonToDelete.addEventListener('click', (e) => {
-
-
     let accept = confirm('Вы точно хотите удалить этот продукт?');
     if (accept) {
-      $buttonToDeleteParent.remove();
       clearStorage();
-    } else {
-      return null;
+      $buttonToDeleteParent.remove();
     }
-    let toStorageList = goodsList.filter(el => {
+    let filtered = goodsList.filter(el => {
       return `button-${el.name}` !== e.target.id
     });
-    setItemsToLocalStorage(toStorageList);
+    setItemsToLocalStorage(filtered);
   })
-  setItemsToLocalStorage(goodsList);
 }
+
 
 $paramTitle.addEventListener('keyup', () => {
   let filteredList = [];
@@ -123,7 +124,7 @@ function getGoods(type) {
     }
     case 'bought': {
       $subtitle.innerText = 'Уже куплено';
-      localStorage.removeItem('goodsList');
+      clearStorage();
       paintNewList(goodsList.filter(item => {
         if (item.bought) {
           item.display = true;
@@ -137,7 +138,7 @@ function getGoods(type) {
     }
     case 'planned': {
       $subtitle.innerText = 'Планируемые покупки';
-      localStorage.removeItem('goodsList');
+      clearStorage();
       paintNewList(goodsList.filter(item => {
         if (!item.bought) {
           item.display = true;
