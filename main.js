@@ -1,6 +1,6 @@
 let goodsList = [];
 let counter = 1;
-let toggleStatus = 0;
+let toggleStatus;
 let $ol = document.querySelector('.goods-list');
 let $allBoughtButton = document.querySelector('.btn-allBought');
 let $boughtButton = document.querySelector('.btn-bought');
@@ -107,11 +107,11 @@ const paintAllItems = (list) => {
 };
 
 $allBoughtButton.addEventListener('click', () => {
-  toggleStatus = 1;
+  toggleStatus = 'Все покупки';
   paintAllItems(goodsList);
   $subtitle.innerText = 'Все покупки.';
   $filterLength.innerText = `Найдено: ${goodsList.length} продуктов.`;
-  if (toggleStatus === 1) {
+  if (toggleStatus === 'Все покупки') {
     $paramTitle.addEventListener('keyup', () => {
       let filteredList = [];
       goodsList.forEach((item) => {
@@ -137,7 +137,7 @@ const paintBoughtItems = (list) => {
 
 let boughtItems;
 $boughtButton.addEventListener('click', () => {
-  toggleStatus = 2;
+  toggleStatus = 'Уже куплено';
   boughtItems = [];
   goodsList.forEach((item) => {
     if (item.bought) {
@@ -147,7 +147,7 @@ $boughtButton.addEventListener('click', () => {
   paintBoughtItems(boughtItems);
   $subtitle.innerText = 'Купленные.';
   $filterLength.innerText = `Найдено: ${boughtItems.length} продуктов.`;
-  if (toggleStatus === 2) {
+  if (toggleStatus === 'Уже куплено') {
     $paramTitle.addEventListener('keyup', () => {
       let filteredList = [];
       boughtItems.forEach((item) => {
@@ -173,7 +173,7 @@ const paintPlannedItems = (list) => {
 
 let plannedItems;
 $plannedButton.addEventListener('click', () => {
-  toggleStatus = 3;
+  toggleStatus = 'Планируемые покупки';
   plannedItems = [];
   goodsList.forEach((item) => {
     if (!item.bought) {
@@ -183,7 +183,7 @@ $plannedButton.addEventListener('click', () => {
   paintPlannedItems(plannedItems);
   $subtitle.innerText = 'Планируемые покупки.';
   $filterLength.innerText = `Найдено: ${plannedItems.length} продуктов.`;
-  if (toggleStatus === 3) {
+  if (toggleStatus === 'Планируемые покупки') {
     $paramTitle.addEventListener('keyup', () => {
       let filteredList = [];
       plannedItems.forEach((item) => {
