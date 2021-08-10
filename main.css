@@ -9,6 +9,10 @@ form {
     max-width: 35%;
 }
 
+button {
+    background: none;
+}
+
 input {
     padding: 2px;
 }
@@ -49,6 +53,10 @@ li {
     bottom: 0;
 }
 
+.bought-items {
+    background-color: rgba(149, 236, 149, 0.4);
+}
+
 .btn {
     border-radius: 4px;
     background-color: #292929;
@@ -57,12 +65,17 @@ li {
     transition: .2s ease;
 }
 
-button:hover {
+.btn:hover {
     background-color: #e0e0e0;
     color: #292929;
     cursor: pointer;
 }
 
-.bought-items {
-    background-color: rgba(149, 236, 149, 0.4);
+.btn-delete {
+    margin-left: auto;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    background-color: #ff3838;
+    color: white;
 }

@@ -40,7 +40,7 @@ function addItem() {
   }
   $subtitle.innerText = 'Все покупки.';
   $filterLength.innerText = `Найдено: ${goodsList.length} продуктов.`;
-};
+}
 
 //  addItem from key (Enter)
 $name.addEventListener('keydown', (e) => {
@@ -59,7 +59,7 @@ function paintNewItem(item) {
         <li>Дата покупки: ${item.date}</li>
         <li>${item.bought ? 'Куплено' : 'Покупка планируется'}</li>
       </ul>
-      <button id="button-${item.name}">Удалить</button>
+      <button class="btn-delete" id="button-${item.name}">Удалить</button>
     </li>
 `;
   $ol.insertAdjacentHTML('beforeend', itemData);
@@ -126,13 +126,9 @@ function getGoods(type) {
       $subtitle.innerText = 'Уже куплено.';
       clearStorage();
       paintNewList(goodsList.filter(item => {
-        if (item.bought) {
-          item.display = true;
-        } else {
-          item.display = false;
-        }
+        item.display = !!item.bought;
         setItemsToLocalStorage(goodsList);
-        return item.bought === true
+        return item.bought === true;
       }))
       break;
     }
@@ -140,11 +136,7 @@ function getGoods(type) {
       $subtitle.innerText = 'Планируемые покупки.';
       clearStorage();
       paintNewList(goodsList.filter(item => {
-        if (!item.bought) {
-          item.display = true;
-        } else {
-          item.display = false;
-        }
+        item.display = !item.bought;
         setItemsToLocalStorage(goodsList);
         return item.bought === false;
       }))
