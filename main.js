@@ -113,7 +113,7 @@ function getGoods(type) {
   switch (type) {
     case 'all': {
       let storageList = localStorage.getItem('goodsList');
-      $subtitle.innerText = 'Все покупки';
+      $subtitle.innerText = 'Все покупки.';
       paintNewList(goodsList.filter(item => {
         if (storageList) {
           item.display = true;
@@ -123,7 +123,7 @@ function getGoods(type) {
       break;
     }
     case 'bought': {
-      $subtitle.innerText = 'Уже куплено';
+      $subtitle.innerText = 'Уже куплено.';
       clearStorage();
       paintNewList(goodsList.filter(item => {
         if (item.bought) {
@@ -137,7 +137,7 @@ function getGoods(type) {
       break;
     }
     case 'planned': {
-      $subtitle.innerText = 'Планируемые покупки';
+      $subtitle.innerText = 'Планируемые покупки.';
       clearStorage();
       paintNewList(goodsList.filter(item => {
         if (!item.bought) {
@@ -214,6 +214,7 @@ function onPageLoaded() {
   if (storageList) {
     goodsList = JSON.parse(localStorage.getItem('goodsList')).items;
     paintNewList(goodsList);
+    $subtitle.innerText = 'Все покупки.';
     $filterLength.innerText = `Найдено: ${goodsList.length} продуктов.`;
   } else {
     goodsList = []
