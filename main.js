@@ -8,7 +8,6 @@ let $price = document.getElementById('price');
 let $date = document.getElementById('date');
 let $subtitle = document.querySelector('.subtitle');
 let $filterLength = document.querySelector('.length');
-
 let $allButton = document.querySelector('.all');
 let $boughtButton = document.querySelector('.bought');
 let $plannedButton = document.querySelector('.planned');
@@ -98,34 +97,36 @@ function paintNewItem(item) {
     let filtered = goodsList.filter(el => {
       return `button-${el.name}` !== e.target.id
     });
+    $filterLength.innerText = `Найдено: ${filtered.length} продуктов.`;
     setItemsToLocalStorage(filtered);
   })
 }
 
-
-$paramTitle.addEventListener('keyup', () => {
+function filterByTitle() {
   let filteredList = [];
   goodsList.forEach((item) => {
     let value = item.name.toLowerCase();
     let filterInput = $paramTitle.value.toLowerCase();
     if (value.includes(filterInput)) {
       filteredList.push(item);
+      filteredList.forEach(i => {
+        i.display = true;
+      })
+    } else {
+      item.display = false;
     }
   });
   $filterLength.innerText = `Найдено: ${filteredList.length} продуктов.`;
+  setFilterInputValueToLocalStorage($paramTitle);
   paintNewList(filteredList);
-});
+}
 
-// function filterButtons(type) {
-//   if (type ===) {
-//   }
-// }
+$paramTitle.addEventListener('keyup', filterByTitle)
 
 
 function getGoods(type) {
   switch (type) {
     case 'all': {
-      console.log(type)
       toggleButtonStyles(type);
       let storageList = localStorage.getItem('goodsList');
       $subtitle.innerText = 'Все покупки.';
@@ -211,6 +212,11 @@ function setFilterValueToLocalStorage(filterName = String()) {
   localStorage.setItem('filterValue', filterName);
 }
 
+function setFilterInputValueToLocalStorage(filterValue = String()) {
+  localStorage.setItem('filterInputValue', $paramTitle.value);
+
+}
+
 // clear
 function clearList() {
   if (goodsList.length > 0) {
@@ -242,6 +248,11 @@ function onPageLoaded() {
     $subtitle.innerText = 'Все покупки.';
     $filterLength.innerText = `Найдено: ${goodsList.length} продуктов.`;
     getGoods(localStorage.getItem('filterValue'));
+
+    if (localStorage.getItem('filterInputValue') !== null) {
+      $paramTitle.value = localStorage.getItem('filterInputValue');
+      filterByTitle();
+    }
   } else {
     goodsList = []
   }
