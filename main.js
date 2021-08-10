@@ -117,7 +117,7 @@ function filterByTitle() {
     }
   });
   $filterLength.innerText = `Найдено: ${filteredList.length} продуктов.`;
-  setFilterInputValueToLocalStorage($paramTitle);
+  setFilterInputValueToLocalStorage($paramTitle.value);
   paintNewList(filteredList);
 }
 
@@ -213,7 +213,7 @@ function setFilterValueToLocalStorage(filterName = String()) {
 }
 
 function setFilterInputValueToLocalStorage(filterValue = String()) {
-  localStorage.setItem('filterInputValue', $paramTitle.value);
+  localStorage.setItem('filterInputValue', filterValue);
 
 }
 
@@ -249,7 +249,7 @@ function onPageLoaded() {
     $filterLength.innerText = `Найдено: ${goodsList.length} продуктов.`;
     getGoods(localStorage.getItem('filterValue'));
 
-    if (localStorage.getItem('filterInputValue') !== null) {
+    if (localStorage.getItem('filterInputValue') !== '') {
       $paramTitle.value = localStorage.getItem('filterInputValue');
       filterByTitle();
     }
