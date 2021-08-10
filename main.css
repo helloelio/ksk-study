@@ -65,10 +65,13 @@ li {
     transition: .2s ease;
 }
 
+.btn-active {
+    background-color: olive;
+}
+
 .btn:hover {
-    background-color: #e0e0e0;
-    color: #292929;
     cursor: pointer;
+    text-decoration: underline;
 }
 
 .btn-delete {

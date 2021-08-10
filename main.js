@@ -9,6 +9,12 @@ let $date = document.getElementById('date');
 let $subtitle = document.querySelector('.subtitle');
 let $filterLength = document.querySelector('.length');
 
+let $allButton = document.querySelector('.all');
+let $boughtButton = document.querySelector('.bought');
+let $plannedButton = document.querySelector('.planned');
+let buttonsArray = [];
+buttonsArray.push($allButton, $boughtButton, $plannedButton);
+
 function addItem() {
   if ($name.value !== '') {
     let goodsListItem = {
@@ -64,8 +70,9 @@ function paintNewItem(item) {
 `;
   $ol.insertAdjacentHTML('beforeend', itemData);
 
-  item.display ? document.getElementById(`product-${item.name}`).style.display = 'block' :
-      document.getElementById('product').style.display = 'none';
+  item.display ?
+      document.getElementById(`product-${item.name}`).style.display = 'block' :
+      document.getElementById(`product-${item.name}`).style.display = 'none';
 
   let $checkbox = document.getElementById(`${item.name}`);
   let $checkboxParent = $checkbox.parentNode;
@@ -109,9 +116,17 @@ $paramTitle.addEventListener('keyup', () => {
   paintNewList(filteredList);
 });
 
+// function filterButtons(type) {
+//   if (type ===) {
+//   }
+// }
+
+
 function getGoods(type) {
   switch (type) {
     case 'all': {
+      console.log(type)
+      toggleButtonStyles(type);
       let storageList = localStorage.getItem('goodsList');
       $subtitle.innerText = 'Все покупки.';
       paintNewList(goodsList.filter(item => {
@@ -119,10 +134,12 @@ function getGoods(type) {
           item.display = true;
         }
       }))
-      paintNewList(goodsList)
+      paintNewList(goodsList);
+      setFilterValueToLocalStorage(type);
       break;
     }
     case 'bought': {
+      toggleButtonStyles(type);
       $subtitle.innerText = 'Уже куплено.';
       clearStorage();
       paintNewList(goodsList.filter(item => {
@@ -130,9 +147,11 @@ function getGoods(type) {
         setItemsToLocalStorage(goodsList);
         return item.bought === true;
       }))
+      setFilterValueToLocalStorage(type);
       break;
     }
     case 'planned': {
+      toggleButtonStyles(type);
       $subtitle.innerText = 'Планируемые покупки.';
       clearStorage();
       paintNewList(goodsList.filter(item => {
@@ -140,9 +159,17 @@ function getGoods(type) {
         setItemsToLocalStorage(goodsList);
         return item.bought === false;
       }))
+      setFilterValueToLocalStorage(type);
       break;
     }
   }
+}
+
+//
+function toggleButtonStyles(type) {
+  buttonsArray.forEach(i => i.classList.forEach(x => {
+    type === x ? i.classList.add('btn-active') : i.classList.remove('btn-active');
+  }))
 }
 
 //  paint planned bought
@@ -174,6 +201,16 @@ function sortByParam() {
   paintNewList(goodsList);
 }
 
+
+//  setStorage
+function setItemsToLocalStorage(list = []) {
+  localStorage.setItem('goodsList', JSON.stringify({items: list}));
+}
+
+function setFilterValueToLocalStorage(filterName = String()) {
+  localStorage.setItem('filterValue', filterName);
+}
+
 // clear
 function clearList() {
   if (goodsList.length > 0) {
@@ -184,16 +221,12 @@ function clearList() {
   }
 }
 
-//  setStorage
-function setItemsToLocalStorage(list = []) {
-  localStorage.setItem('goodsList', JSON.stringify({items: list}));
-}
-
 //  clearStorage
 function clearStorage() {
   localStorage.removeItem('goodsList');
 }
 
+// clearFields
 function clearFields() {
   $name.value = '';
   $count.value = '';
@@ -208,6 +241,7 @@ function onPageLoaded() {
     paintNewList(goodsList);
     $subtitle.innerText = 'Все покупки.';
     $filterLength.innerText = `Найдено: ${goodsList.length} продуктов.`;
+    getGoods(localStorage.getItem('filterValue'));
   } else {
     goodsList = []
   }
