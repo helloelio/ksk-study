@@ -258,6 +258,6 @@ function onPageLoaded() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', onPageLoaded)
+document.addEventListener('DOMContentLoaded', onPageLoaded);
 
 //TODO: fix filter, fix display value, fix delete
