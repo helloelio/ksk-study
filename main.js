@@ -94,13 +94,13 @@ function paintNewItem(item) {
     if (accept) {
       clearStorage();
       $buttonToDeleteParent.remove();
+      let filtered = goodsList.filter(el => {
+        return `button-${el.name}` !== e.target.id
+      });
+      $filterLength.innerText = `Найдено: ${filtered.length} продуктов.`;
+      setItemsToLocalStorage(filtered);
+      window.location.reload();
     }
-    let filtered = goodsList.filter(el => {
-      return `button-${el.name}` !== e.target.id
-    });
-    $filterLength.innerText = `Найдено: ${filtered.length} продуктов.`;
-    setItemsToLocalStorage(filtered);
-    window.location.reload();
   })
 }
 

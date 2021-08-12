@@ -9,9 +9,13 @@
 <div class="container add-form-container">
     <h1>Список покупок</h1>
     <form>
+        <label for="name">Наименование товара</label>
         <input type="text" id="name" placeholder="Наименование товара"/>
+        <label for="count">Количество товара</label>
         <input type="number" id="count" placeholder="Количество товара"/>
+        <label for="price">Цена товара</label>
         <input type="number" id="price" placeholder="Цена товара"/>
+        <label for="date">Дата покупки товара</label>
         <input type="date" id="date" placeholder="Дата покупки товара"/>
         <input type="button" id="add" value="Добавить" onclick="addItem()"/>
         <input type="button" id="clear" value="Очистить список" onclick="clearList()"/>
