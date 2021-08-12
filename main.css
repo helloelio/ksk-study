@@ -1,51 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap');
+
 body {
-    background-color: #e0e0e0;
+    background-color: #16171b;
+    color: #fefefe;
+    font-size: 16px;
+    font-family: 'Ubuntu', sans-serif;
 }
 
-form {
-    display: grid;
-    gap: 10px;
-    margin-bottom: 20px;
-    max-width: 35%;
+.length {
+    border-radius: 8px;
+    padding: 5px;
+    border: 2px solid #16171b;
+    animation: 1.5s border infinite;
 }
 
-button {
-    background: none;
-}
-
-input {
-    padding: 2px;
-}
-
-select {
-    padding: 2px
-}
-
-li {
-    margin-bottom: 10px;
-}
-
+/* containers */
 .container {
     margin: 10px;
 }
 
-#list {
-    margin-bottom: 50px;
-}
-
-.product {
-    padding: 10px;
-    box-shadow: 1px 1px 5px black;
-    max-width: 30%;
-}
-
-.checked-product {
-    background-color: rgba(255, 0, 0, 0.4);
-}
-
 .buttons-container {
     border-radius: 8px;
-    background-color: #292929;
+    background-color: #202125;
+    border: 1px solid #fefefe;
     padding: 5px;
     position: fixed;
     left: 50%;
@@ -53,20 +30,142 @@ li {
     bottom: 0;
 }
 
-.bought-items {
-    background-color: rgba(149, 236, 149, 0.4);
+.searching-container {
+    display: flex;
+    max-width: 35%;
+    align-items: center;
 }
 
+/* containers */
+
+/*form */
+form {
+    background-color: #202125;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+    max-width: 35%;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+#add {
+    font-weight: 500;
+    background-color: #01b075;
+    box-shadow: 1px 1px 10px #13a474;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    justify-self: start;
+}
+
+#add:active {
+    background-color: #fff;
+    color: #01b075;
+}
+
+#clear {
+    font-weight: 700;
+    background-color: #fe4638;
+    box-shadow: 1px 1px 5px #983730;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    justify-self: end;
+}
+
+input {
+    font-family: 'Ubuntu', sans-serif;
+    background: #202125;
+    border: 1px solid #fefefe;
+    color: #fefefe;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+input::placeholder {
+    color: rgba(254, 254, 254, 0.81);
+}
+
+/*  form  */
+
+/* sorting */
+select {
+    background-color: #202125;
+    color: #fefefe;
+    padding: 5px;
+}
+
+/* sorting */
+
+/*  products  */
+#list {
+    margin-bottom: 50px;
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.product {
+    background-color: #202125;
+    padding: 10px;
+    max-width: 30%;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #808080;
+}
+
+.checked-product {
+    background-color: rgba(255, 0, 0, 0.4);
+}
+
+.bought-items {
+    background-color: #01b075;
+    box-shadow: 1px 1px 10px #13a474;
+    border: 1px solid #01b075;
+}
+
+.btn-delete {
+    margin-left: auto;
+    cursor: pointer;
+    padding: 5px 20px;
+    border-radius: 4px;
+    background-color: #fe4638;
+    color: #fefeff;
+    box-shadow: 1px 1px 5px #983730;
+    border: none;
+    transition: .2s ease;
+}
+
+.btn-delete:hover {
+    background-color: #fefeff;
+    color: #fe4638;
+}
+
+/* products */
+
+/* navigation buttons */
 .btn {
+    font-family: 'Ubuntu', sans-serif;
     border-radius: 4px;
     background-color: #292929;
     color: white;
-    border: 0;
+    border: 1px solid #292929;
     transition: .2s ease;
 }
 
 .btn-active {
-    background-color: olive;
+    background-color: #01b075;
+    box-shadow: 1px 1px 10px #13a474;
+    border: 1px solid #01b075;
 }
 
 .btn:hover {
@@ -74,11 +173,26 @@ li {
     text-decoration: underline;
 }
 
-.btn-delete {
-    margin-left: auto;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 4px;
-    background-color: #ff3838;
-    color: white;
+/* navigation buttons */
+
+@keyframes border {
+    25% {
+        border-top: 2px solid #fe4638;
+    }
+    50% {
+        border-top: 2px solid #fe4638;
+        border-right: 2px solid #fe4638;
+    }
+    75% {
+        border-top: 2px solid #fe4638;
+        border-right: 2px solid #fe4638;
+        border-bottom: 2px solid #fe4638;
+    }
+    100% {
+        border-top: 2px solid #fe4638;
+        border-right: 2px solid #fe4638;
+        border-bottom: 2px solid #fe4638;
+        border-left: 2px solid #fe4638;
+        background-color: #fe4638;
+    }
 }

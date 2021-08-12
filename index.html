@@ -14,29 +14,33 @@
         <input type="number" id="price" placeholder="Цена товара"/>
         <input type="date" id="date" placeholder="Дата покупки товара"/>
         <input type="button" id="add" value="Добавить" onclick="addItem()"/>
-        <input type="button" value="Очистить список" onclick="clearList()"/>
+        <input type="button" id="clear" value="Очистить список" onclick="clearList()"/>
     </form>
 </div>
+<div class="container">
+    <div class="searching-container">
+        <div class="container sort-container">
+            <label for="sorting-param">Сортировка</label>
+            <select id="sorting-param" onchange="sortByParam()">
+                <option value="name">Название</option>
+                <option value="price">Цена</option>
+                <option value="count">Количество</option>
+                <option value="date">Дата</option>
+            </select>
+        </div>
 
-<div class="container sort-container">
-    <label for="sorting-param">Сортировка</label>
-    <select id="sorting-param" onchange="sortByParam()">
-        <option value="name">Название</option>
-        <option value="price">Цена</option>
-        <option value="count">Количество</option>
-        <option value="date">Дата</option>
-    </select>
-</div>
-<div class="container filter-container">
-    <label for="filter-param">Найти</label>
-    <input type="text" id="filter-param" placeholder="Поиск">
+        <div class="container filter-container">
+            <label for="filter-param">Найти</label>
+            <input type="text" id="filter-param" placeholder="Поиск">
+        </div>
+    </div>
 </div>
 <div class="container buttons-container">
     <button class="btn all" onclick="getGoods('all')">Все покупки</button>
     <button class="btn bought" onclick="getGoods('bought')">Уже куплено</button>
     <button class="btn planned" onclick="getGoods('planned')">Планируемые покупки</button>
 </div>
-<div>
+<div class="container">
     <span class="length"></span>
 </div>
 
