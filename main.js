@@ -76,14 +76,15 @@ function paintNewItem(item) {
   let $checkbox = document.getElementById(`${item.name}`);
   let $checkboxParent = $checkbox.parentNode;
   $checkbox.checked = item.bought;
-  item.bought ? $checkboxParent.classList.add('checked-product') : $checkboxParent.classList.remove('checked-product');
+  item.bought ? $checkboxParent.classList.add('bought-items') : $checkboxParent.classList.remove('bought-items');
   $checkbox.addEventListener('change', (e) => {
     goodsList.forEach(t => {
       if (t.name === e.target.id) {
         t.bought = !t.bought;
-        item.bought ? $checkboxParent.classList.add('checked-product') : $checkboxParent.classList.remove('checked-product');
+        item.bought ? $checkboxParent.classList.add('bought-items') : $checkboxParent.classList.remove('bought-items');
       }
     })
+    setItemsToLocalStorage(goodsList);
   });
 
   let $buttonToDelete = document.getElementById(`button-${item.name}`);
@@ -99,6 +100,7 @@ function paintNewItem(item) {
     });
     $filterLength.innerText = `Найдено: ${filtered.length} продуктов.`;
     setItemsToLocalStorage(filtered);
+    window.location.reload();
   })
 }
 
@@ -248,7 +250,6 @@ function onPageLoaded() {
     $subtitle.innerText = 'Все покупки.';
     $filterLength.innerText = `Найдено: ${goodsList.length} продуктов.`;
     getGoods(localStorage.getItem('filterValue'));
-
     if (localStorage.getItem('filterInputValue') !== '') {
       $paramTitle.value = localStorage.getItem('filterInputValue');
       filterByTitle();
